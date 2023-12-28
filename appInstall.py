@@ -21,7 +21,8 @@ def installDependencies():
 def modify_title():
     # Modificar el código de la aplicación para incluir el nombre del grupo
     grupo_numero = os.getenv("GRUPO_NUMERO", "GrupoX")  # GrupoX es un valor de respaldo si la variable de entorno no está definida
-    productpage_path = "./templates/index.html"
+    productpage_path = "./templates/productpage.html"
+    index_path = "./templates/index.html"
     
     with open(productpage_path, "r") as file:
         content = file.read()
@@ -29,6 +30,15 @@ def modify_title():
 
     with open(productpage_path, "w") as file:
         file.write(content)
+
+    with open(index_path, "r") as file:
+        content = file.read()
+        content = content.replace("{% block title %}Simple Bookstore App{% endblock %}", "{% block title %}{grupo_numero}{% endblock %}")
+
+    with open(index_path, "w") as file:
+        file.write(content)
+
+    
 
 def startApp():
     subprocess.call('python3 productpage_monolith.py 9080', shell=True)
