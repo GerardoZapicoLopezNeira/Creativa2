@@ -1,12 +1,12 @@
 #!usr/bin/env python 
 
-import sys, subprocess, os, re
+import sys, subprocess, os, re # Librerias
 
 
-def pause():
+def pause(): # Función para pausar el programa
     programPause = input('Press the <ENTER> key to continue...')
 
-def installDependencies():
+def installDependencies(): # Función para instalar las dependencias
     subprocess.call("sudo apt install python3", shell=True)
     pause()
     subprocess.call("sudo apt install pip3", shell=True)
@@ -18,8 +18,7 @@ def installDependencies():
     subprocess.call("pip3 install -r requirements.txt", shell=True)
     os.environ["GRUPO_NUMERO"] = "Grupo 13" 
 
-def modify_title():
-    # Modificar el código de la aplicación para incluir el nombre del grupo
+def modify_title(): # Modificar el código de la aplicación para incluir el nombre del grupo
     grupo_numero = os.getenv("GRUPO_NUMERO", "GrupoX")  # GrupoX es un valor de respaldo si la variable de entorno no está definida
     productpage_path = "./templates/productpage.html"
     index_path = "./templates/index.html"
@@ -41,7 +40,7 @@ def modify_title():
 
     
 
-def startApp():
+def startApp(): # Función para iniciar la aplicación
     subprocess.call('python3 productpage_monolith.py 5000', shell=True)
 
 installDependencies()
