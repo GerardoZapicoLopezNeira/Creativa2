@@ -1,6 +1,6 @@
 #!usr/bin/env python 
 
-import sys, subprocess, os
+import sys, subprocess, os, re
 
 
 def pause():
@@ -16,7 +16,7 @@ def installDependencies():
     path = '{}/practica_creativa2/bookinfo/src/productpage'.format(os.getcwd())
     os.chdir(path)
     subprocess.call("pip3 install -r requirements.txt", shell=True)
-    
+    os.environ["GRUPO_NUMERO"] = "Grupo 13" 
 
 def modify_title():
     # Modificar el código de la aplicación para incluir el nombre del grupo
@@ -26,14 +26,15 @@ def modify_title():
     
     with open(productpage_path, "r") as file:
         content = file.read()
-        content = content.replace("{% block title %}Simple Bookstore App{% endblock %}", "{% block title %}{grupo_numero}{% endblock %}")
+        content = re.sub(r'{% block title %}(.*?){% endblock %}', '{% block title %}'+grupo_numero+'{% endblock %}', content, flags=re.DOTALL)
+
 
     with open(productpage_path, "w") as file:
         file.write(content)
 
     with open(index_path, "r") as file:
         content = file.read()
-        content = content.replace("{% block title %}Simple Bookstore App{% endblock %}", "{% block title %}{grupo_numero}{% endblock %}")
+        content = re.sub(r'{% block title %}(.*?){% endblock %}', '{% block title %}'+grupo_numero+'{% endblock %}', content, flags=re.DOTALL)
 
     with open(index_path, "w") as file:
         file.write(content)
@@ -41,7 +42,7 @@ def modify_title():
     
 
 def startApp():
-    subprocess.call('python3 productpage_monolith.py 9080', shell=True)
+    subprocess.call('python3 productpage_monolith.py 5000', shell=True)
 
 installDependencies()
 modify_title()
