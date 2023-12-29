@@ -1,4 +1,4 @@
-# Documentación de los scipts y ficheros de configuración utilizados en la práctica creativa 2 realizada por el Grupo 13.
+# Documentación de la práctica creativa 2 realizada por el Grupo 13.
 
 ## 1. Despliegue de la aplicación en máquina virtual pesada
 
