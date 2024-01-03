@@ -41,7 +41,32 @@ INFO:werkzeug: * Debugger PIN: 206-608-507
 
 ## 2. Despliegue de una aplicación monolítica usando docker
 
+Antes de comenzar con el proceso de despliegue necesitamos instalar las herramientas necesarias. Al estar trabajando sobre una MV pesada en los servicios de Google Cloud, hace falta instalar Docker.
 
+```
+sudo apt update
+sudo apt install docker
+sudo apt install docker.io
+sudo usermod -aG docker $USER
+```
+
+
+El primer paso para desplegar la aplicación utilizando un contenedor en docker es definir el Dockerfile en la raíz del proyecto:
+
+```
+$ tree
+
+.
+├── bookinfo
+│   ├── platform
+│   └── src
+├── Dockerfile
+├── images
+│   ├── app-microservices.png
+│   ├── app-monolith.png
+│   └── web-app-gui.png
+└── README.md
+```
 
 
 
