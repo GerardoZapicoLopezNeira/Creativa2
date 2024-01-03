@@ -41,15 +41,14 @@ INFO:werkzeug: * Debugger PIN: 206-608-507
 
 ## 2. Despliegue de una aplicación monolítica usando docker
 
+# Instalación de Docker
+
 Antes de comenzar con el proceso de despliegue necesitamos instalar las herramientas necesarias. Al estar trabajando sobre una MV pesada en los servicios de Google Cloud, hace falta instalar Docker.
+Para instalar la versón más reciente de Docker seguimos la documentación oficial en: https://docs.docker.com/engine/install/debian/
 
-```
-sudo apt update
-sudo apt install docker
-sudo apt install docker.io
-sudo usermod -aG docker $USER
-```
+Una vez instalado Docker podemos comenzar con la dockerización de la aplicación.
 
+### Implementación
 
 El primer paso para desplegar la aplicación utilizando un contenedor en docker es definir el Dockerfile en la raíz del proyecto:
 
@@ -67,61 +66,50 @@ $ tree
 │   └── web-app-gui.png
 └── README.md
 ```
+El dockerfile del proyecto tendrá la siguiente estructura:
 
+```
+# Etapa 1: Construir la imagen con dependencias de compilación
+FROM python:3 AS builder
 
+# Establecer el directorio de trabajo en el contenedor
+WORKDIR /app
 
+# Copiar los archivos necesarios al contenedor
+COPY ./bookinfo/src/productpage /app
 
-Modificacion dependencias, Click da error al ejecutar pip install -r requirements.txt
+# Copiar las dependencias
+COPY ./bookinfo/src/productpage/requirements.txt /app
 
-Click == 7.0 ---> Click >= 7.0
+# Etapa 2: Construir la imagen final
+FROM debian:buster
 
-itsdangerous==1.1.0 ---> itsdangerous>=2.1.2
+# Establecer el directorio de trabajo en el contenedor
+WORKDIR /app
 
-Jinja2==2.11.3 ---> Jinja2>=3.1.2
+# Copiar archivos necesarios, incluyendo desde la etapa 1
+COPY --from=builder /app /app
 
-Werkzeug==0.15.5 ---> Werkzeug>=2.3.7 
+# Actualizar el sistema e instalar dependencias específicas de Debian
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libev-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-urllib3==1.26.5 ---> urllib3>=1.21.1,<1.25
+# Instalar pip
+RUN apt-get update && \
+    apt-get install -y python3-pip
 
-MarkupSafe==0.23 ---> MarkupSafe>=2.0
+# Instalar dependencias de Python
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-gevent==1.4.0 ---> gevent>=1.4.0
+# Configurar la variable de entorno para el grupo
+ENV GRUPO_NUMERO=13
 
-greenlet==0.4.15 ---> greenlet>=0.4.15
+# Expone el puerto 9080
+EXPOSE 9080
 
-requirements.txt utilizado con python 3.9:
+# Comando de inicio
+CMD ["python3", "productpage_monolith.py", "9080"]
 
-certifi==2019.3.9
-chardet==3.0.4
-Click>=7.0
-contextlib2==0.5.5
-dominate==2.3.5
-Flask==2.3.3
-Flask-Bootstrap==3.3.7.1
-Flask-JSON==0.3.3
-future==0.17.1
-futures==3.1.1
-gevent>=1.4.0
-greenlet>=0.4.15
-idna==2.8
-itsdangerous>=2.1.2
-jaeger-client==3.13.0
-Jinja2>=3.1.2
-json2html==1.2.1
-MarkupSafe>=2.0
-nose==1.3.7
-opentracing==1.2.2
-opentracing-instrumentation==2.4.3
-requests==2.21.0
-simplejson==3.16.0
-six==1.12.0
-threadloop==1.0.2
-thrift==0.11.0
-tornado==4.5.3
-urllib3>=1.21.1,<1.25
-visitor==0.1.3
-Werkzeug>=2.3.7
-wrapt==1.11.1
-
-
-
+```
