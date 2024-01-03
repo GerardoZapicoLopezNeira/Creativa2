@@ -113,3 +113,10 @@ EXPOSE 9080
 CMD ["python3", "productpage_monolith.py", "9080"]
 
 ```
+
+Como se observa en el Dockerfile, hemos dividido este en 2 etapas, las cuales se encargan de manejar primero las dependencias de compilación y luego de instalar las demás en una imagen final.
+De esta forma no nos enfrentaremos a problemas de optimización de recursos y reducimos la carga de una única etapa.
+
+
+
+
