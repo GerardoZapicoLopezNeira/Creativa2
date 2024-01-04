@@ -1,0 +1,21 @@
+# Imagen base
+FROM node:12.18.1-slim
+
+# Establecemos el directorio de trabajo
+WORKDIR /opt/microservices
+
+# Copiamos los ficheros necesarios al directorio de trabajo
+COPY ./package.json /opt/microservices
+COPY ./ratings.js /opt/microservices
+
+# Especificamos la variable de entorno
+ENV SERVICE_VERSION=v1
+
+# Instalamos las dependencias
+RUN npm install
+
+# Exponemos el puerto 9080
+EXPOSE 9080
+
+# Ejecutamos el fichero ratings.js con el puerto proporcionado como argumento
+CMD ["node", "ratings.js", "9080"]

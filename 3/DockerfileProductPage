@@ -1,0 +1,13 @@
+# ProductPage Dockerfile
+FROM python:3.7.7-slim
+
+WORKDIR /opt/microservices/productpage
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 9080
+
+CMD ["python", "productpage.py", "9080"]
+

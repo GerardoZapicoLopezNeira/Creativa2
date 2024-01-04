@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  productpage:
+    image: g13/productpage
+    container_name: g13-productpage
+    build:
+      context: ./src/productpage
+    ports:
+      - "9080:9080"
+    volumes:
+      - ./src/productpage:/opt/microservices/productpage
+
+  details:
+    image: g13/details
+    container_name: g13-details
+    build:
+      context: ./src/details
+    ports:
+      - "9081:9080"
+    volumes:
+      - ./src/details:/opt/microservices
+    environment:
+      - SERVICE_VERSION=v1
+      - ENABLE_EXTERNAL_BOOK_SERVICE=true 
+
+  reviews:
+    image: g13/reviews
+    container_name: g13-reviews
+    build:
+      context: ./src/reviews/reviews-wlpcfg
+    environment:
+      - ENABLE_RATINGS=true
+      - SERVICE_VERSION=v3
+      - STAR_COLOR=red
+    volumes:
+      - ./src/reviews/reviews-wlpcfg:/home/gradle/project
+
+  ratings:
+    image: g13/ratings
+    container_name: g13-ratings
+    build:
+      context: ./src/ratings
+    ports:
+      - "9082:9080"
+    volumes:
+      - ./src/ratings:/opt/microservices
+      - /opt/microservices/node_modules 
+    environment:
+      - SERVICE_VERSION=v1
+

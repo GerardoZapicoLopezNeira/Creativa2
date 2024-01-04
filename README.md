@@ -108,5 +108,32 @@ docker pull gerardozapico/creativa2g13:g13-product-page
 docker run -p 9080:9080 gerardozapico/creativa2g13:g13-product-page
 ```
 
+## 3. Segmentación de una aplicación monolítica en microservicios utilizando docker-compose
 
+La implementación de esta solución dividida en microservicios ha sido implementada en nuestra máquina local, empezando por la definición del Dockerfile de cada servicio.
+Cada fichero ha sido creado en la carpeta correspondiente al servicio, de la siguiente manera:
+
+```
+.
+├── bookinfo
+    ├── docker-compose.yml
+    └── src
+        ├── details
+        │   └── Dockerfile
+        ├── productpage
+        │   ├── Dockerfile
+        │     
+        ├── ratings
+        │   ├── Dockerfile
+        │   
+        └── reviews
+            ├── reviews-application
+            └── reviews-wlpcfg
+                ├── Dockerfile
+```
+
+Después de crear las imágenes respectivas a cada servicio, creamos el fichero docker-compose.yml.
+
+### Problemas de implementación encontrados
+ 
 
