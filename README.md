@@ -94,6 +94,19 @@ EXPOSE 9080
 CMD ["python3", "productpage_monolith.py", "9080"]
 ```
 
+La imagen creada a partir de esta aplicación se ha subido a DockerHub mediante los comandos:
+
+```
+sudo docker image tag g13-product-page:1.0 gerardozapico/creativa2g13:g13-product-page
+sudo docker push gerardozapico/creativa2g13:g13-product-page
+
+```
+Primeramente ha sido probado en una máquina local, y luego se ha bajado del repositorio para probar la imagen en la MV pesada desplegada en Google Cloud.
+
+```
+docker pull gerardozapico/creativa2g13:g13-product-page
+docker run -p 9080:9080 gerardozapico/creativa2g13:g13-product-page
+```
 
 
 
