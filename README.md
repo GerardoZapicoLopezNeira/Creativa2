@@ -69,41 +69,22 @@ $ tree
 El dockerfile del proyecto tendrá la siguiente estructura:
 
 ```
-# Etapa 1: Construir la imagen con dependencias de compilación
-FROM python:3 AS builder
+FROM python:3.7.7-slim
 
-# Establecer el directorio de trabajo en el contenedor
+# Establece el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiar los archivos necesarios al contenedor
+# Copia los archivos necesarios al contenedor
 COPY ./bookinfo/src/productpage /app
 
-# Copiar las dependencias
+# Copia las dependencias
 COPY ./bookinfo/src/productpage/requirements.txt /app
 
-# Etapa 2: Construir la imagen final
-FROM debian:buster
+# Instala las dependencias
 
-# Establecer el directorio de trabajo en el contenedor
-WORKDIR /app
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar archivos necesarios, incluyendo desde la etapa 1
-COPY --from=builder /app /app
-
-# Actualizar el sistema e instalar dependencias específicas de Debian
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libev-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Instalar pip
-RUN apt-get update && \
-    apt-get install -y python3-pip
-
-# Instalar dependencias de Python
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-# Configurar la variable de entorno para el grupo
+# Configura la variable de entorno para el grupo
 ENV GRUPO_NUMERO=13
 
 # Expone el puerto 9080
@@ -111,11 +92,7 @@ EXPOSE 9080
 
 # Comando de inicio
 CMD ["python3", "productpage_monolith.py", "9080"]
-
 ```
-
-Como se observa en el Dockerfile, hemos dividido este en 2 etapas, las cuales se encargan de manejar primero las dependencias de compilación y luego de instalar las demás en una imagen final.
-De esta forma no nos enfrentaremos a problemas de optimización de recursos y reducimos la carga de una única etapa.
 
 
 
