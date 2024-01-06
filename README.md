@@ -158,21 +158,21 @@ De esta forma el contenedor podrá manejar las librerias instaladas con el coman
 
 ### Diferencias con la versión de un único contenedor
 
-1. Arquitectura de la Aplicación
+- **Arquitectura de la Aplicación**
 En la implementación original de un único contenedor, la aplicación estaba compuesta como un monolito, donde los servicios estaban integrados en un solo contenedor. En contraste, en la versión basada en microservicios, cada servicio se ha segmentado en un contenedor independiente.
 
-2. Independencia de Desarrollo y Despliegue
+- **Independencia de Desarrollo y Despliegue**
 Con la arquitectura de microservicios, cada equipo/máquina puede desarrollar, probar y desplegar su propio servicio de manera independiente. Esto permite una mayor flexibilidad y agilidad en el ciclo de desarrollo en comparación con la versión monolítica, donde cualquier cambio afectaba a toda la aplicación.
 
-3. Escalabilidad Granular
+- **Escalabilidad Granular**
 En el enfoque de microservicios, cada servicio puede ser escalado de manera independiente según sus requisitos de carga. En el caso de la versión monolítica, la escalabilidad era única para toda la aplicación, lo que podía llevar a subutilización de recursos.
 
-4. Manejo de Versiones de Servicios
+- **Manejo de Versiones de Servicios**
 Con la introducción de microservicios, se implementaron tres versiones diferentes del servicio Reviews, cada una mostrando estrellas de manera distinta. La variable de entorno SERVICE_VERSION controla qué versión está activa. Esto proporciona una mayor flexibilidad y capacidad para gestionar múltiples versiones de servicios, algo que no era posible en la versión monolítica.
 
-5. Comunicación entre Microservicios
+- **Comunicación entre Microservicios**
 La comunicación entre los microservicios se realiza mediante llamadas de red, lo que establece una clara interfaz de comunicación entre ellos. En comparación, la versión monolítica tenía una comunicación interna más directa, ya que todos los componentes estaban en el mismo contenedor.
 
-6. Despliegue y Actualización Continuos
+- **Despliegue y Actualización Continuos**
 La arquitectura de microservicios permite la implementación y actualización continua de servicios individuales, lo que minimiza el impacto en otros servicios. Esto contrasta con la versión monolítica, donde las actualizaciones podrían afectar a toda la aplicación y requerir un despliegue completo.
 		
