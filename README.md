@@ -175,4 +175,7 @@ La comunicación entre los microservicios se realiza mediante llamadas de red, l
 
 - **Despliegue y Actualización Continuos:**
 La arquitectura de microservicios permite la implementación y actualización continua de servicios individuales, lo que minimiza el impacto en otros servicios. Esto contrasta con la versión monolítica, donde las actualizaciones podrían afectar a toda la aplicación y requerir un despliegue completo.
+
+## 4. Despliegue de una aplicación basada en microservicios utilizando Kubernetes
+
 		
