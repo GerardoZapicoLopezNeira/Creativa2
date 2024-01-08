@@ -178,7 +178,46 @@ La arquitectura de microservicios permite la implementación y actualización co
 
 ### Resultado del despliegue de la aplicación
 
+En las imágenes se documenta el proceso de despliegue a través de las diferentes versiones de la aplicación.
 
 ## 4. Despliegue de una aplicación basada en microservicios utilizando Kubernetes
 
-		
+Para este despliegue se ha hecho uso de la herramienta gcloud CLI, para poder desplegar y administrar el clúster en GKE desde la terminal de nuestro equipo local.
+
+### Instalación
+```
+curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-458.0.1-linux-x86_64.tar.gz
+tar -xf google-cloud-cli-458.0.1-linux-x86_64.tar.gz
+./google-cloud-sdk/install.sh
+./google-cloud-sdk/bin/gcloud init
+```
+### Despliegue del clúster
+Primero nos autenticamos en gcloud con ```gcloud auth login```, nos situamos en el proyecto creado anteriormente ```gcloud config set project pcreativa2g13``` y elegimos la zona de facturación adecuada (Madrid) ```gcloud config set compute/zone europe-southwest1-a```. 
+Creamos el clúster con la configuración requerida ```gcloud container clusters create cluster-pcreativa --num-nodes=5 --no-enable-autoscaling``` y configuramos kubctl para que apunte al clúster creado ```gcloud container clusters get-credentials cluster-pcreativa```. 
+Aplicamos todos los ficheros de despliegue y servicios en el clúster ```kubectl apply -f [NOMBRE_FICHERO].yaml```.
+
+Con esta configuración el clúster bajará las imágenes creadas en el apartado anterior desde el repositorio de Docker Hub y las montará sobre los pods creados en los 5 nodos. En total hay 9 pods corriendo (3 réplicas del servicio **details**, 1 réplica del servicio **productpage**, 2 réplicas del servicio **ratings** y 1 réplica de cada versión del servicio **reviews*). Esta monitorización puede hacerse con los comandos siguientes:
+```
+# Muestra los pods corriendo en el clúster
+kubectl get pods
+NAME                             READY   STATUS    RESTARTS   AGE
+details-v1-594b48c9c7-84c84      1/1     Running   0          15m
+details-v1-594b48c9c7-pzxcr      1/1     Running   0          15m
+details-v1-594b48c9c7-x8lf7      1/1     Running   0          15m
+productpage-v1-fcbcfd8dd-sj22h   1/1     Running   0          16m
+ratings-v1-f59877749-j4sw4       1/1     Running   0          16m
+ratings-v1-f59877749-x2sbt       1/1     Running   0          16m
+reviews-v1-69b7f64449-hdb6g      1/1     Running   0          18m
+reviews-v2-58b979c4d6-wv4q5      1/1     Running   0          17m
+reviews-v3-57d65dc979-q6pf2      1/1     Running   0          16m
+
+# Muestra los servicios y los puertos que está utilizando cada uno, junto a su IP interna y externa
+kubectl get services
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)        AGE
+details                ClusterIP      10.16.4.64     <none>          9080/TCP       36m
+kubernetes             ClusterIP      10.16.0.1      <none>          443/TCP        45m
+productpage            ClusterIP      10.16.5.54     <none>          9080/TCP       36m
+productpage-external   LoadBalancer   10.16.11.154   34.175.81.177   80:32593/TCP   35m
+ratings                ClusterIP      10.16.7.121    <none>          9080/TCP       36m
+reviews                ClusterIP      10.16.4.48     <none>          9080/TCP       36m
+```
