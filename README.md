@@ -196,7 +196,7 @@ Primero nos autenticamos en gcloud con ```gcloud auth login```, nos situamos en 
 Creamos el clúster con la configuración requerida ```gcloud container clusters create cluster-pcreativa --num-nodes=5 --no-enable-autoscaling``` y configuramos kubctl para que apunte al clúster creado ```gcloud container clusters get-credentials cluster-pcreativa```. 
 Aplicamos todos los ficheros de despliegue y servicios en el clúster ```kubectl apply -f [NOMBRE_FICHERO].yaml```.
 
-Con esta configuración el clúster bajará las imágenes creadas en el apartado anterior desde el repositorio de Docker Hub y las montará sobre los pods creados en los 5 nodos. En total hay 9 pods corriendo (3 réplicas del servicio **details**, 1 réplica del servicio **productpage**, 2 réplicas del servicio **ratings** y 1 réplica de cada versión del servicio **reviews*). Esta monitorización puede hacerse con los comandos siguientes:
+Con esta configuración el clúster bajará las imágenes creadas en el apartado anterior desde el repositorio de Docker Hub y las montará sobre los pods creados en los 5 nodos. En total hay 9 pods corriendo (3 réplicas del servicio **details**, 1 réplica del servicio **productpage**, 2 réplicas del servicio **ratings** y 1 réplica de cada versión del servicio **reviews**). Esta monitorización puede hacerse con los comandos siguientes:
 ```
 # Muestra los pods corriendo en el clúster
 kubectl get pods
