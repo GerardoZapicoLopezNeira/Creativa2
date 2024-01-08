@@ -220,4 +220,14 @@ productpage            ClusterIP      10.16.5.54     <none>          9080/TCP   
 productpage-external   LoadBalancer   10.16.11.154   34.175.81.177   80:32593/TCP   35m
 ratings                ClusterIP      10.16.7.121    <none>          9080/TCP       36m
 reviews                ClusterIP      10.16.4.48     <none>          9080/TCP       36m
+
+# Muestra los servicios desplegados. Desplegamos la versión de reviews que queremos mostrar en la aplicación.
+kubectl get deployments
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+details-v1       3/3     3            3           53m
+productpage-v1   1/1     1            1           53m
+ratings-v1       2/2     2            2           53m
+reviews-v2       1/1     1            1           52m
+
 ```
+
