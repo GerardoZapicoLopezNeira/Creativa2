@@ -230,4 +230,12 @@ ratings-v1       2/2     2            2           53m
 reviews-v2       1/1     1            1           52m
 
 ```
+### Diferencias al crear Pods y Escalabilidad
 
+- Al crear Pods individualmente, puedes utilizar el comando kubectl apply -f NOMBRE_DEL_ARCHIVO.yaml para cada archivo de configuración de los Pods.
+
+- Si utilizas archivos separados para cada microservicio, puedes actualizar o aplicar cambios específicos a un microservicio sin afectar a otros, lo que facilita la administración.
+
+- En cuanto a la escalabilidad, al utilizar la configuración de réplicas en los Deployments, puedes escalar horizontalmente tus aplicaciones. Por ejemplo, puedes aumentar o disminuir el número de réplicas de un microservicio según la demanda de tráfico.
+
+- Con una solución de orquestación de contenedores como Kubernetes, la escalabilidad puede manejarse automáticamente a través de la autoescalabilidad (si está habilitada, en nuestro caso no) o manualmente ajustando el número de réplicas en la configuración del Deployment.
