@@ -239,3 +239,46 @@ reviews-v2       1/1     1            1           52m
 - En cuanto a la escalabilidad, al utilizar la configuración de réplicas en los Deployments, puedes escalar horizontalmente tus aplicaciones. Por ejemplo, puedes aumentar o disminuir el número de réplicas de un microservicio según la demanda de tráfico.
 
 - Con una solución de orquestación de contenedores como Kubernetes, la escalabilidad puede manejarse automáticamente a través de la autoescalabilidad (si está habilitada, en nuestro caso no) o manualmente ajustando el número de réplicas en la configuración del Deployment.
+
+# **Discusión sobre la Arquitectura, Fiabilidad y Escalabilidad:**
+
+## **Despliegue de una aplicación monolítica en una máquina virtual pesada:**
+
+*Puntos Débiles:*
+- **Escalabilidad Limitada:** El despliegue en una máquina virtual pesada tiene limitaciones en la escalabilidad, ya que se trata de un enfoque monolítico tradicional.
+- **Fiabilidad:** Dependencia de una única instancia, lo que aumenta el riesgo de fallos.
+
+*Soluciones:*
+- **Escalabilidad Vertical:** Puedes mejorar la escalabilidad vertical de la aplicación aumentando los recursos de la máquina virtual.
+- **Balanceo de Carga:** Introducir un balanceador de carga puede distribuir la carga entre múltiples instancias.
+
+## **Despliegue de una aplicación monolítica usando Docker:**
+
+*Puntos Débiles:*
+- **Complejidad de la Red:** La comunicación entre contenedores puede ser compleja, y la exposición de puertos puede ser arriesgada si no se configura adecuadamente.
+- **Fiabilidad:** Aún se trata de un monolito, por lo que la fiabilidad no está del todo asegurada.
+
+*Soluciones:*
+- **Orquestación:** Considera el uso de herramientas de orquestación como Docker Compose para gestionar múltiples contenedores.
+- **Configuración Cuidadosa de Red:** Asegúrate de configurar cuidadosamente la red entre contenedores y utiliza volúmenes para persistencia.
+
+## **Segmentación de una aplicación monolítica en microservicios utilizando Docker-Compose:**
+
+*Puntos Débiles:*
+- **Complejidad de Gestión:** La gestión de múltiples contenedores puede volverse compleja, especialmente al trabajar con diferentes lenguajes de programación.
+
+*Soluciones:*
+- **Orquestación de Microservicios:** Herramientas como Docker Compose facilitan la orquestación, pero considera herramientas más avanzadas para entornos de producción.
+
+## **Despliegue de una aplicación basada en microservicios utilizando Kubernetes:**
+
+*Puntos Débiles:*
+- **Configuración Compleja:** Configurar y mantener un clúster de Kubernetes puede ser complejo, especialmente en términos de configuración inicial.
+- **Consumo de Recursos:** Kubernetes consume muchos recursos, lo que puede aumentar los costes.
+
+*Soluciones:*
+- **Automatización:** Utiliza scripts o herramientas de automatización para facilitar la configuración del clúster.
+- **Monitoreo y Escalado Automático:** Implementa monitoreo y escalado automático para gestionar eficientemente los recursos.
+
+**Conclusión General:**
+La elección entre un enfoque monolítico y microservicios, y las herramientas específicas utilizadas, dependen de los requisitos específicos del proyecto, la tolerancia a fallos, la escalabilidad requerida y la complejidad de gestión que estamos dispuestos a asumir.
